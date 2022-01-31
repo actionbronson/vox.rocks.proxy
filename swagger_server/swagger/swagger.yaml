@@ -1,0 +1,50 @@
+openapi: 3.0.1
+info:
+  title: VOX Cloud Proxy
+  version: 1.0.0
+servers:
+- url: /api/v1
+tags:
+- name: vox
+paths:
+  /login/{method}:
+    post:
+      tags:
+      - vox
+      summary: Login
+      operationId: login
+      parameters:
+      - name: method
+        in: path
+        description: The login method.  Only facebook is supported for now.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: Logged in.
+          content: {}
+      x-codegen-request-body-name: user
+      x-openapi-router-controller: swagger_server.controllers.vox_controller
+components:
+  schemas:
+    User:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+x-original-swagger-version: "2.0"
+

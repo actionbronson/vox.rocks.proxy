@@ -1,0 +1,9 @@
+facebook_oauth:
+  url: "https://m.facebook.com"
+  api_key: 125005697707172
+  redirect_url: "https://my.vox.rocks/auth/facebook/callback"
+  cancel_url: "https://my.vox.rocks/auth/facebook/callback?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_"
+  headers:
+    user-agent: 'Mozilla/5.0 (BlackBerry; U; BlackBerry 9300; en) AppleWebKit/534.8+ (KHTML, like Gecko) Version/6.0.0.570 Mobile Safari/534.8+'
+    accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+    referer: 

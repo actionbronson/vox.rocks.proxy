@@ -1,0 +1,46 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "VOX Cloud Proxy"
+basePath: "/api/v1"
+tags:
+  - name: "vox"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+paths:
+  /login/{method}:
+    post:
+      tags:
+        - "vox"
+      summary: "Login"
+      operationId: "login"
+      parameters:
+        - name: "method"
+          in: "path"
+          description: "The login method.  Only facebook is supported for now."
+          required: true
+          type: "string"
+        - name: "user"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "Logged in."
+definitions:
+  User:
+    type: "object"
+    required:
+      - "email"
+      - "password"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
