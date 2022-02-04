@@ -6,13 +6,23 @@ basePath: "/api/v1"
 tags:
   - name: "vox"
 schemes:
-  - "http"
+  - "https"
 consumes:
   - "application/json"
 produces:
   - "application/json"
 
 paths:
+  /status:
+    get:
+      tags:
+        - "vox"
+      summary: "Status of VOX Proxy"
+      operationId: "status"
+      responses:
+        200:
+          description: "Status of VOX Proxy."
+
   /login/{method}:
     post:
       tags:
@@ -33,6 +43,7 @@ paths:
       responses:
         200:
           description: "Logged in."
+          
 definitions:
   User:
     type: "object"

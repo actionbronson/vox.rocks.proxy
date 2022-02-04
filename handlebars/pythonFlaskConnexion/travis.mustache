@@ -1,6 +1,9 @@
 # ref: https://docs.travis-ci.com/user/languages/python
 language: python
 python:
+{{#supportPython2}}
+  - "2.7"
+{{/supportPython2}}
   - "3.2"
   - "3.3"
   - "3.4"
@@ -8,8 +11,6 @@ python:
   #- "3.5-dev" # 3.5 development branch
   #- "nightly" # points to the latest development branch e.g. 3.6-dev
 # command to install dependencies
-before_install: 
-  - "/usr/local/bin/swagger-codegen generate -o . -t handlebars -i openapi/specification.yml -l python-flask"
 install: "pip install -r requirements.txt"
 # command to run tests
 script: nosetests

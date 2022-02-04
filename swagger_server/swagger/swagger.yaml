@@ -7,6 +7,17 @@ servers:
 tags:
 - name: vox
 paths:
+  /status:
+    get:
+      tags:
+      - vox
+      summary: Status of VOX Proxy
+      operationId: status
+      responses:
+        "200":
+          description: Status of VOX Proxy.
+          content: {}
+      x-openapi-router-controller: swagger_server.controllers.vox_controller
   /login/{method}:
     post:
       tags:
