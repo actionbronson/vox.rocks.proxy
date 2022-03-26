@@ -22,7 +22,6 @@ def login(user: User, method: str):
 def login_facebook(user: User):
     vox_oauth_login = VoxOAuthLogin(FacebookOauthProvider())
     vox_oauth_resp = vox_oauth_login.login(user)
-    vox_session_manager.set_session(user.email, vox_oauth_login.get_session(), {
-        "oauth_token": vox_oauth_resp.json()})
+    vox_session_manager.set_session(user.email, vox_oauth_login.get_session(), vox_oauth_resp.json())
     response = jsonify(vox_session_manager.get_details())
     return response
