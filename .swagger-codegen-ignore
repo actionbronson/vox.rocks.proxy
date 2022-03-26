@@ -27,3 +27,4 @@ requirements.txt
 swagger_server/__main__.py
 git_push.sh
 .travis.yml
+setup.py

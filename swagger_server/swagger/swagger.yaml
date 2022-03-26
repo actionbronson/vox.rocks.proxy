@@ -18,6 +18,166 @@ paths:
           description: Status of VOX Proxy.
           content: {}
       x-openapi-router-controller: swagger_server.controllers.vox_controller
+  /library/build:
+    post:
+      tags:
+      - vox
+      summary: Build an in-memory VOX Library
+      operationId: library_build
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoxLibraryCreation'
+        required: true
+      responses:
+        "200":
+          description: Build an in-memory VOX Library
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoxLibrary'
+      x-codegen-request-body-name: library_creation
+      x-openapi-router-controller: swagger_server.controllers.vox_controller
+  /library/artists:
+    get:
+      tags:
+      - vox
+      summary: Get artists from VOX Lbrary
+      operationId: get_artists
+      parameters:
+      - name: sort_by
+        in: query
+        description: sort by name or latest.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - name
+          - latest
+      - name: limit
+        in: query
+        description: limit number of items returned
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: ascending
+        in: query
+        description: ascending
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Artists from VOX Lbrary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoxArtists'
+      x-openapi-router-controller: swagger_server.controllers.vox_controller
+  /library/artists/{artist_id}/albums:
+    get:
+      tags:
+      - vox
+      summary: "Get albums from artist from VOX Lbrary, by artist id"
+      operationId: get_artist_albums
+      parameters:
+      - name: artist_id
+        in: path
+        description: The VOX artist id.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: sort_by
+        in: query
+        description: sort by name or latest.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - name
+          - latest
+          - year
+      - name: limit
+        in: query
+        description: limit number of items returned
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: ascending
+        in: query
+        description: ascending
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Albums by artist from VOX Lbrary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoxAlbums'
+      x-openapi-router-controller: swagger_server.controllers.vox_controller
+  /library/albums/{id}:
+    get:
+      tags:
+      - vox
+      summary: "Get single album from VOX Lbrary, by id"
+      operationId: get_album_by_id
+      parameters:
+      - name: id
+        in: path
+        description: The VOX album id.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Album from VOX Lbrary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoxAlbum'
+      x-openapi-router-controller: swagger_server.controllers.vox_controller
+  /library/albums/{album_id}/tracks:
+    get:
+      tags:
+      - vox
+      summary: "Get tracks from VOX Lbrary, by album id"
+      operationId: get_tracks_by_album
+      parameters:
+      - name: album_id
+        in: path
+        description: The VOX album id.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Tracks from VOX Album
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoxTracks'
+      x-openapi-router-controller: swagger_server.controllers.vox_controller
   /login/{method}:
     post:
       tags:
@@ -57,5 +217,157 @@ components:
           type: string
         password:
           type: string
+    VoxLibraryCreation:
+      type: object
+      properties:
+        type:
+          type: string
+    VoxLibrary:
+      required:
+      - artists_count
+      - size
+      - size_human
+      - tracks_count
+      type: object
+      properties:
+        size_human:
+          type: string
+        tracks_count:
+          type: integer
+        artists_count:
+          type: integer
+        albums_count:
+          type: integer
+        size:
+          type: integer
+      example:
+        artists_count: 6
+        size: 5
+        tracks_count: 0
+        albums_count: 1
+        size_human: size_human
+    VoxArtist:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+        ts_added:
+          type: integer
+        ts_modified:
+          type: integer
+      example:
+        ts_added: 0
+        name: name
+        id: id
+        ts_modified: 6
+    VoxAlbum:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+        release_year:
+          type: integer
+        tracks_count:
+          type: integer
+        format:
+          type: string
+        ts_added:
+          type: integer
+        ts_modified:
+          type: integer
+      example:
+        tracks_count: 6
+        ts_added: 1
+        name: name
+        release_year: 0
+        format: format
+        id: id
+        ts_modified: 5
+    VoxTrack:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        album_artist_name:
+          type: string
+        album_id:
+          type: string
+        album_name:
+          type: string
+        artist_name:
+          type: string
+        bitrate:
+          type: integer
+        date_added:
+          type: integer
+        disc_number:
+          type: integer
+        disc_total:
+          type: integer
+        file_item_data_sha1:
+          type: string
+        file_item_ext:
+          type: string
+        file_item_id:
+          type: string
+        file_item_sha1:
+          type: string
+        file_item_size:
+          type: integer
+        id:
+          type: string
+        genre:
+          type: string
+        release_year:
+          type: integer
+        sample_rate:
+          type: integer
+        track_number:
+          type: integer
+      example:
+        disc_number: 1
+        file_item_size: 5
+        artist_name: artist_name
+        file_item_id: file_item_id
+        file_item_sha1: file_item_sha1
+        release_year: 2
+        bitrate: 0
+        album_artist_name: album_artist_name
+        date_added: 6
+        file_item_data_sha1: file_item_data_sha1
+        sample_rate: 7
+        album_name: album_name
+        name: name
+        file_item_ext: file_item_ext
+        genre: genre
+        album_id: album_id
+        track_number: 9
+        id: id
+        disc_total: 5
+    VoxArtists:
+      type: array
+      items:
+        $ref: '#/components/schemas/VoxArtist'
+    VoxAlbums:
+      type: array
+      items:
+        $ref: '#/components/schemas/VoxAlbum'
+    VoxTracks:
+      type: array
+      items:
+        $ref: '#/components/schemas/VoxTrack'
 x-original-swagger-version: "2.0"
 
