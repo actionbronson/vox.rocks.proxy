@@ -1,12 +1,14 @@
 import logging
 import datetime
 
-from swagger_server.server_impl import vox_session_manager
+from flask import current_app
 
 logger = logging.getLogger(__name__)
     
 def status() -> dict:
-    status = dict(
-        status_time=datetime.datetime.now(),
-        current_user=vox_session_manager.get_id())
-    return status
+    with current_app.app_context():
+        status = dict(
+            status_time=datetime.datetime.now(),
+            current_user=current_app.vox_session_manager.get_id(),
+            library_details=current_app.vox_library_details)
+        return status

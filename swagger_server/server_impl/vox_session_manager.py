@@ -1,10 +1,7 @@
-
 from abc import ABC
 from urllib import request
 import requests
 import logging
-
-from swagger_server.server_impl.controllers_impl.vox_library_cache import VoxLibraryCache 
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +15,6 @@ class VoxSessionManager(object):
     def __init__(self):
         logger.info("Initializing empty session.")
         self.active_session = None
-        self.vox_cache = VoxLibraryCache.empty()
 
     def set_session(self, id: str, vox_session: requests.Session, vox_details: dict):
         self.active_session = dict(id=id, session=vox_session, details=vox_details)
@@ -55,6 +51,3 @@ class VoxSessionManager(object):
     def get_cloud_token(self) -> str:
         file_cloud: list = self.get_details()['fileCloud']
         return file_cloud['token']
-    
-    def get_vox_cache(self):
-        return self.vox_cache
