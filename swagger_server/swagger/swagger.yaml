@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VoxLibrary'
+                $ref: '#/components/schemas/VoxLibraryDetails'
       x-codegen-request-body-name: library_creation
       x-openapi-router-controller: swagger_server.controllers.vox_controller
   /library/artists:
@@ -222,7 +222,7 @@ components:
       properties:
         type:
           type: string
-    VoxLibrary:
+    VoxLibraryDetails:
       required:
       - artists_count
       - size

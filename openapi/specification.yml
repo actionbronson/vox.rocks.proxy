@@ -39,7 +39,7 @@ paths:
         200:
           description: "Build an in-memory VOX Library"
           schema:
-            $ref: '#/definitions/VoxLibrary'
+            $ref: '#/definitions/VoxLibraryDetails'
 
   /library/artists:
     get:      
@@ -203,7 +203,7 @@ definitions:
       type:
         type: "string"
 
-  VoxLibrary:
+  VoxLibraryDetails:
     type: "object"
     required:
       - "tracks_count"

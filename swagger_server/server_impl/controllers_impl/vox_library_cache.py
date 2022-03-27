@@ -4,8 +4,6 @@ import requests
 from typing import Any, Callable
 from swagger_server.models.vox_artist import VoxArtist
 from swagger_server.models.vox_album import VoxAlbum
-from swagger_server.server_impl import vox_session_manager
-
 
 logger = logging.getLogger(__name__)
 
@@ -14,11 +12,11 @@ class VoxLibraryCache(object):
     session: requests.Session
 
     @staticmethod
-    def empty():
-        return VoxLibraryCache([])
+    def empty(session):
+        return VoxLibraryCache(session, [])
 
-    def __init__(self, artists: list = []):
-        self.session = vox_session_manager.active_session
+    def __init__(self, session, artists: list = []):
+        self.session = session
         self.artists_cache = {artist.id(): {'artist': artist} for artist in artists}
     
     def add_artists(self, artists: list[VoxArtist] = []):
@@ -52,7 +50,7 @@ class VoxLibraryCache(object):
     def get_tracks_by_album(self, album_id: str) -> list:
         # https://api.vox.rocks/api/tracks?filter[limit]=1000&filter[skip]=0&filter[where][albumId][inq][]=61da0b9ebf41726612f9ce60&filter[where][isDeleted]=false
         headers={
-            "Authorization": vox_session_manager.get_access_token(),
+            "Authorization": self.session.get_access_token(),
             "User-Agent": "Loop/0.14.34 (Mac OS X Version 12.1 (Build 21C52))",
             "x-api-version": "2"}
         self.session.get("https://api.vox.rocks/api/tracks", headers=headers, )
@@ -61,6 +59,5 @@ class VoxLibraryCache(object):
     def add_artists_albums(self, artist_albums: dict[str,list[VoxAlbum]]):
         for artist_id,albums in artist_albums.items():
             artist_albums = self.artists_cache[artist_id].setdefault('albums', [])
-
             logger.debug(f"Appending {len(albums)} albums to artist: '{artist_id}'.  Already has {len(artist_albums)} albums.")
             artist_albums.extend(albums)
