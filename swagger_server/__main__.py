@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 @click.option('--email', help='email for login')
 @click.option('--password', help='password for login')
 @click.option('--method', help="login method")
-@click.option('--library-build', help="build library", default=True)
+@click.option('--library-build', help="build library", default=False)
 def run(email, password, method, library_build):
     app = connexion.App(__name__, specification_dir='./swagger/')
     vox_session_manager = VoxSessionManager()
