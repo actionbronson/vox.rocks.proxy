@@ -12,7 +12,7 @@ VERSION = "1.0.0"
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["connexion", "hurry.filesize", "click", "confuse"]
+REQUIRES = []
 
 setup(
     name=NAME,

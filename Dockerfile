@@ -9,8 +9,8 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app
 
-EXPOSE 8080
+EXPOSE 23456
 
 ENTRYPOINT ["python3"]
 
-CMD ["-m", "swagger_server"]
+CMD ["-m", "swagger_server", "--email", "$FACEBOOK_EMAIL", "--password", "$FACEBOOK_PASSWORD", "--method", "facebok", "--library-build"]
